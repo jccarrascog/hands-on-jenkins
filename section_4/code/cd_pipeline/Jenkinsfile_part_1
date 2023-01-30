@@ -1,7 +1,9 @@
 #!/usr/bin/groovy
 
 pipeline {
-    agent any
+	agent {
+	  label 'docker
+	}
 
     options {
         disableConcurrentBuilds()
@@ -10,6 +12,13 @@ pipeline {
     stages {
 
         stage("Build") {
+		agent {
+			docker {
+			  // Set both label and image
+			  label 'docker'
+			  image 'node:7-alpine'
+			  args '--name docker-node' // list any args
+			}
             steps { buildApp() }
 		}
 
